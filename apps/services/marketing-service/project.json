@@ -16,7 +16,14 @@
         "bundle": false,
         "main": "apps/services/marketing-service/src/main.ts",
         "tsConfig": "apps/services/marketing-service/tsconfig.app.json",
-        "assets": ["apps/services/marketing-service/src/assets"],
+        "assets": [
+          "*.md",
+          {
+            "input": "apps/services/marketing-service/src/assets",
+            "glob": "**/*",
+            "output": "apps/services/marketing-service/src/assets"
+          }
+        ],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
