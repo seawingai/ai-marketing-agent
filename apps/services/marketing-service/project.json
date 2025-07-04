@@ -1,0 +1,64 @@
+{
+  "name": "marketing-service",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/services/marketing-service/src",
+  "projectType": "application",
+  "tags": ["service"],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/services/marketing-service",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/services/marketing-service/src/main.ts",
+        "tsConfig": "apps/services/marketing-service/tsconfig.app.json",
+        "assets": ["apps/services/marketing-service/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "generateLockfile": true,
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "marketing-service:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "marketing-service:build:development"
+        },
+        "production": {
+          "buildTarget": "marketing-service:build:production"
+        }
+      }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/services/marketing-service/Dockerfile . -t marketing-service"
+    }
+  }
+}

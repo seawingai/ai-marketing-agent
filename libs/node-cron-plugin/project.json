@@ -1,0 +1,20 @@
+{
+  "name": "node-cron-plugin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/node-cron-plugin/src",
+  "projectType": "library",
+  "tags": ["lib"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/node-cron-plugin",
+        "tsConfig": "libs/node-cron-plugin/tsconfig.lib.json",
+        "packageJson": "libs/node-cron-plugin/package.json",
+        "main": "libs/node-cron-plugin/src/index.ts",
+        "assets": ["libs/node-cron-plugin/*.md"]
+      }
+    }
+  }
+}

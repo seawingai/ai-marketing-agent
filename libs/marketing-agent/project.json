@@ -1,0 +1,20 @@
+{
+  "name": "marketing-agent",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/marketing-agent/src",
+  "projectType": "library",
+  "tags": ["lib"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/marketing-agent",
+        "tsConfig": "libs/marketing-agent/tsconfig.lib.json",
+        "packageJson": "libs/marketing-agent/package.json",
+        "main": "libs/marketing-agent/src/index.ts",
+        "assets": ["libs/marketing-agent/*.md"]
+      }
+    }
+  }
+}
