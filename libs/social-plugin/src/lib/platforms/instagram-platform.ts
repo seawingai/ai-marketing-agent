@@ -7,6 +7,22 @@ export interface InstagramConfig extends SocialPlatformConfig {
   clientSecret?: string;
 }
 
+interface InstagramContainerResponse {
+  id: string;
+  error?: {
+    message: string;
+    code: number;
+  };
+}
+
+interface InstagramPublishResponse {
+  id: string;
+  error?: {
+    message: string;
+    code: number;
+  };
+}
+
 export class InstagramPlatform extends SocialCore {
   private userId: string;
   private accessToken: string;
@@ -35,43 +51,31 @@ export class InstagramPlatform extends SocialCore {
       const caption = this.formatCaption(post);
 
       // Create container for the post
-      const containerResponse = await this.makeRequest(
+      const containerResponse = await this.post<InstagramContainerResponse>(
         `https://graph.facebook.com/v18.0/${this.userId}/media`,
         {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            image_url: post.media[0], // Instagram typically uses one image per post
-            caption,
-            access_token: this.accessToken,
-          }),
+          image_url: post.media[0], // Instagram typically uses one image per post
+          caption,
+          access_token: this.accessToken,
         }
       );
 
-      const containerResult = await containerResponse.json();
+      const containerResult = containerResponse.data;
       
       if (containerResult.error) {
         throw new Error(`Instagram API error: ${containerResult.error.message}`);
       }
 
       // Publish the container
-      const publishResponse = await this.makeRequest(
+      const publishResponse = await this.post<InstagramPublishResponse>(
         `https://graph.facebook.com/v18.0/${this.userId}/media_publish`,
         {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            creation_id: containerResult.id,
-            access_token: this.accessToken,
-          }),
+          creation_id: containerResult.id,
+          access_token: this.accessToken,
         }
       );
 
-      const publishResult = await publishResponse.json();
+      const publishResult = publishResponse.data;
       
       if (publishResult.error) {
         throw new Error(`Instagram publish error: ${publishResult.error.message}`);
@@ -101,22 +105,16 @@ export class InstagramPlatform extends SocialCore {
 
   protected async uploadSingleMedia(mediaUrl: string): Promise<string> {
     try {
-      const response = await this.makeRequest(
+      const response = await this.post<InstagramContainerResponse>(
         `https://graph.facebook.com/v18.0/${this.userId}/media`,
         {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            image_url: mediaUrl,
-            access_token: this.accessToken,
-            published: false,
-          }),
+          image_url: mediaUrl,
+          access_token: this.accessToken,
+          published: false,
         }
       );
 
-      const result = await response.json();
+      const result = response.data;
       
       if (result.error) {
         throw new Error(`Instagram media upload error: ${result.error.message}`);

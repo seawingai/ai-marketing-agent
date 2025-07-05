@@ -8,6 +8,25 @@ export interface TwitterConfig extends SocialPlatformConfig {
   accessTokenSecret?: string;
 }
 
+interface TwitterTweetResponse {
+  data: {
+    id: string;
+    text: string;
+  };
+  errors?: Array<{
+    message: string;
+    code: string;
+  }>;
+}
+
+interface TwitterMediaResponse {
+  media_id_string: string;
+  errors?: Array<{
+    message: string;
+    code: string;
+  }>;
+}
+
 export class TwitterPlatform extends SocialCore {
   private bearerToken: string;
   private apiKey: string;
@@ -46,19 +65,18 @@ export class TwitterPlatform extends SocialCore {
         };
       }
 
-      const response = await this.makeRequest(
+      const response = await this.post<TwitterTweetResponse>(
         'https://api.twitter.com/2/tweets',
+        tweetData,
         {
-          method: 'POST',
           headers: {
             'Authorization': `Bearer ${this.bearerToken}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(tweetData),
         }
       );
 
-      const result = await response.json();
+      const result = response.data;
       
       if (result.errors) {
         throw new Error(`Twitter API error: ${result.errors[0].message}`);
@@ -92,22 +110,21 @@ export class TwitterPlatform extends SocialCore {
       const mediaBlob = await this.fetchMediaAsBlob(mediaUrl);
       
       // Upload to Twitter
-      const response = await this.makeRequest(
+      const response = await this.post<TwitterMediaResponse>(
         'https://upload.twitter.com/1.1/media/upload.json',
+        new URLSearchParams({
+          media_category: 'tweet_image',
+          media_data: await this.blobToBase64(mediaBlob),
+        }),
         {
-          method: 'POST',
           headers: {
             'Authorization': `Bearer ${this.bearerToken}`,
             'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: new URLSearchParams({
-            media_category: 'tweet_image',
-            media_data: await this.blobToBase64(mediaBlob),
-          }),
         }
       );
 
-      const result = await response.json();
+      const result = response.data;
       
       if (result.errors) {
         throw new Error(`Twitter media upload error: ${result.errors[0].message}`);
@@ -121,11 +138,10 @@ export class TwitterPlatform extends SocialCore {
   }
 
   private async fetchMediaAsBlob(mediaUrl: string): Promise<Blob> {
-    const response = await fetch(mediaUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch media from ${mediaUrl}`);
-    }
-    return response.blob();
+    const response = await this.get(mediaUrl, {
+      responseType: 'blob',
+    });
+    return response.data as Blob;
   }
 
   private async blobToBase64(blob: Blob): Promise<string> {

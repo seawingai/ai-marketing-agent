@@ -7,6 +7,16 @@ export interface TikTokConfig extends SocialPlatformConfig {
   openId?: string;
 }
 
+interface TikTokUploadResponse {
+  data: {
+    upload_url: string;
+  };
+  error?: {
+    message: string;
+    code: number;
+  };
+}
+
 export class TikTokPlatform extends SocialCore {
   private accessToken: string;
   private clientKey: string;
@@ -37,52 +47,51 @@ export class TikTokPlatform extends SocialCore {
       const description = this.formatDescription(post);
 
       // First, create the video post
-      const response = await this.makeRequest(
+      const response = await this.post<TikTokUploadResponse>(
         'https://open.tiktokapis.com/v2/video/upload/',
         {
-          method: 'POST',
+          post_info: {
+            title: description,
+            privacy_level: 'SELF_ONLY', // or 'PUBLIC', 'MUTUAL_FOLLOW_FRIENDS'
+            disable_duet: false,
+            disable_comment: false,
+            disable_stitch: false,
+            video_cover_timestamp_ms: 0,
+          },
+          source_info: {
+            source: 'FILE_UPLOAD',
+            video_size: 0, // Will be calculated by TikTok
+            chunk_size: 0, // Will be calculated by TikTok
+            total_chunk_count: 1,
+          },
+        },
+        {
           headers: {
             'Authorization': `Bearer ${this.accessToken}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            post_info: {
-              title: description,
-              privacy_level: 'SELF_ONLY', // or 'PUBLIC', 'MUTUAL_FOLLOW_FRIENDS'
-              disable_duet: false,
-              disable_comment: false,
-              disable_stitch: false,
-              video_cover_timestamp_ms: 0,
-            },
-            source_info: {
-              source: 'FILE_UPLOAD',
-              video_size: 0, // Will be calculated by TikTok
-              chunk_size: 0, // Will be calculated by TikTok
-              total_chunk_count: 1,
-            },
-          }),
         }
       );
 
-      const result = await response.json();
+      const result = response.data;
       
       if (result.error) {
         throw new Error(`TikTok API error: ${result.error.message}`);
       }
 
       // Upload the video file
-      const uploadResponse = await this.makeRequest(
+      const videoBlob = await this.fetchVideoAsBlob(videoUrl);
+      const uploadResponse = await this.put(
         `https://open.tiktokapis.com/v2/video/upload/${result.data.upload_url}`,
+        videoBlob,
         {
-          method: 'PUT',
           headers: {
             'Content-Type': 'video/mp4',
           },
-          body: await this.fetchVideoAsBlob(videoUrl),
         }
       );
 
-      if (!uploadResponse.ok) {
+      if (uploadResponse.status !== 200) {
         throw new Error('Failed to upload video to TikTok');
       }
 
@@ -119,11 +128,10 @@ export class TikTokPlatform extends SocialCore {
   }
 
   private async fetchVideoAsBlob(videoUrl: string): Promise<Blob> {
-    const response = await fetch(videoUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch video from ${videoUrl}`);
-    }
-    return response.blob();
+    const response = await this.get(videoUrl, {
+      responseType: 'blob',
+    });
+    return response.data as Blob;
   }
 
   private formatDescription(post: SocialPost): string {

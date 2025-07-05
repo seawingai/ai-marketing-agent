@@ -8,6 +8,14 @@ export interface LinkedInConfig extends SocialPlatformConfig {
   clientSecret?: string;
 }
 
+interface LinkedInPostResponse {
+  id: string;
+  error?: {
+    message: string;
+    code: number;
+  };
+}
+
 export class LinkedInPlatform extends SocialCore {
   private accessToken: string;
   private organizationId?: string;
@@ -32,46 +40,48 @@ export class LinkedInPlatform extends SocialCore {
       const author = this.organizationId ? `urn:li:organization:${this.organizationId}` : `urn:li:person:${this.userId}`;
       const content = this.formatContent(post);
 
-      const response = await this.makeRequest(
+      const postData: any = {
+        author: author,
+        lifecycleState: 'PUBLISHED',
+        specificContent: {
+          'com.linkedin.ugc.ShareContent': {
+            shareCommentary: {
+              text: content,
+            },
+            shareMediaCategory: post.media && post.media.length > 0 ? 'IMAGE' : 'NONE',
+          },
+        },
+        visibility: {
+          'com.linkedin.ugc.MemberNetworkVisibility': 'PUBLIC',
+        },
+      };
+
+      if (post.media && post.media.length > 0) {
+        postData.specificContent['com.linkedin.ugc.ShareContent'].media = post.media.map(mediaUrl => ({
+          status: 'READY',
+          description: {
+            text: 'Image',
+          },
+          media: mediaUrl,
+          title: {
+            text: 'Image',
+          },
+        }));
+      }
+
+      const response = await this.post<LinkedInPostResponse>(
         'https://api.linkedin.com/v2/ugcPosts',
+        postData,
         {
-          method: 'POST',
           headers: {
             'Authorization': `Bearer ${this.accessToken}`,
             'Content-Type': 'application/json',
             'X-Restli-Protocol-Version': '2.0.0',
           },
-          body: JSON.stringify({
-            author: author,
-            lifecycleState: 'PUBLISHED',
-            specificContent: {
-              'com.linkedin.ugc.ShareContent': {
-                shareCommentary: {
-                  text: content,
-                },
-                shareMediaCategory: post.media && post.media.length > 0 ? 'IMAGE' : 'NONE',
-                ...(post.media && post.media.length > 0 && {
-                  media: post.media.map(mediaUrl => ({
-                    status: 'READY',
-                    description: {
-                      text: 'Image',
-                    },
-                    media: mediaUrl,
-                    title: {
-                      text: 'Image',
-                    },
-                  })),
-                }),
-              },
-            },
-            visibility: {
-              'com.linkedin.ugc.MemberNetworkVisibility': 'PUBLIC',
-            },
-          }),
         }
       );
 
-      const result = await response.json();
+      const result = response.data;
       
       if (result.error) {
         throw new Error(`LinkedIn API error: ${result.error.message}`);

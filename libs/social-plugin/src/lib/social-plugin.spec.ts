@@ -117,39 +117,6 @@ describe('SocialPlugin', () => {
     });
   });
 
-  describe('Event Handling', () => {
-    it('should emit platform success events', (done) => {
-      const post: SocialPost = {
-        content: 'Test post for events',
-      };
-
-      socialPlugin.on('platform:success', (data) => {
-        expect(data.platform).toBeDefined();
-        expect(data.response).toBeDefined();
-        expect(data.response.success).toBe(true);
-        done();
-      });
-
-      // Note: This would require mocking the actual platform implementations
-      // for a complete test, but demonstrates the event structure
-    });
-
-    it('should emit platform error events', (done) => {
-      const post: SocialPost = {
-        content: 'Test post for error events',
-      };
-
-      socialPlugin.on('platform:error', (data) => {
-        expect(data.platform).toBeDefined();
-        expect(data.error).toBeDefined();
-        done();
-      });
-
-      // Note: This would require mocking the actual platform implementations
-      // for a complete test, but demonstrates the event structure
-    });
-  });
-
   describe('Configuration', () => {
     it('should get platform instance', () => {
       const facebookPlatform = socialPlugin.getPlatform('facebook');

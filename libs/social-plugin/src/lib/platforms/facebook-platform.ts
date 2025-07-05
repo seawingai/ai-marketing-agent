@@ -8,6 +8,22 @@ export interface FacebookConfig extends SocialPlatformConfig {
   pageAccessToken?: string;
 }
 
+interface FacebookPostResponse {
+  id: string;
+  error?: {
+    message: string;
+    code: number;
+  };
+}
+
+interface FacebookMediaResponse {
+  id: string;
+  error?: {
+    message: string;
+    code: number;
+  };
+}
+
 export class FacebookPlatform extends SocialCore {
   private pageId: string;
   private accessToken: string;
@@ -30,22 +46,21 @@ export class FacebookPlatform extends SocialCore {
       const message = this.formatMessage(post);
       const mediaIds = post.media ? await this.uploadMedia(post.media) : [];
 
-      const response = await this.makeRequest(
+      const postData: any = {
+        message,
+        access_token: this.accessToken,
+      };
+
+      if (mediaIds.length > 0) {
+        postData.attached_media = mediaIds.map(id => ({ media_fbid: id }));
+      }
+
+      const response = await this.post<FacebookPostResponse>(
         `https://graph.facebook.com/v18.0/${this.pageId}/feed`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            message,
-            access_token: this.accessToken,
-            ...(mediaIds.length > 0 && { attached_media: mediaIds.map(id => ({ media_fbid: id })) }),
-          }),
-        }
+        postData
       );
 
-      const result = await response.json();
+      const result = response.data;
       
       if (result.error) {
         throw new Error(`Facebook API error: ${result.error.message}`);
@@ -75,22 +90,16 @@ export class FacebookPlatform extends SocialCore {
 
   protected async uploadSingleMedia(mediaUrl: string): Promise<string> {
     try {
-      const response = await this.makeRequest(
+      const response = await this.post<FacebookMediaResponse>(
         `https://graph.facebook.com/v18.0/${this.pageId}/photos`,
         {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            url: mediaUrl,
-            access_token: this.accessToken,
-            published: false,
-          }),
+          url: mediaUrl,
+          access_token: this.accessToken,
+          published: false,
         }
       );
 
-      const result = await response.json();
+      const result = response.data;
       
       if (result.error) {
         throw new Error(`Facebook media upload error: ${result.error.message}`);

@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export interface SocialPost {
   content: string;
@@ -32,12 +33,62 @@ export abstract class SocialCore extends EventEmitter {
   protected logger: Console;
   protected maxRetries: number;
   protected retryDelay: number = 1000;
+  protected httpClient: AxiosInstance;
 
   constructor(config: SocialPlatformConfig, logger?: Console) {
     super();
     this.config = config;
     this.logger = logger || console;
     this.maxRetries = config.maxRetries || 3;
+    this.setupHttpClient();
+  }
+
+  /**
+   * Setup HTTP client with axios
+   */
+  private setupHttpClient(): void {
+    this.httpClient = axios.create({
+      timeout: this.config.timeout || 30000,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    // Add request interceptor for logging
+    this.httpClient.interceptors.request.use(
+      (config) => {
+        this.logger.info(`Making request to ${config.url}`, {
+          method: config.method,
+          headers: config.headers,
+        });
+        return config;
+      },
+      (error) => {
+        this.logger.error('HTTP Request Error', { error: error.message });
+        return Promise.reject(error);
+      }
+    );
+
+    // Add response interceptor for logging
+    this.httpClient.interceptors.response.use(
+      (response) => {
+        this.logger.info(`Request successful: ${response.status}`, {
+          status: response.status,
+          statusText: response.statusText,
+          url: response.config.url,
+        });
+        return response;
+      },
+      (error) => {
+        this.logger.error('HTTP Response Error', {
+          status: error.response?.status,
+          statusText: error.response?.statusText,
+          url: error.config?.url,
+          error: error.message,
+        });
+        return Promise.reject(error);
+      }
+    );
   }
 
   /**
@@ -46,23 +97,20 @@ export abstract class SocialCore extends EventEmitter {
   abstract publish(post: SocialPost): Promise<SocialResponse>;
 
   /**
-   * Common HTTP request method with retry logic
+   * Common HTTP request method with retry logic using axios
    */
-  protected async makeRequest(
+  protected async makeRequest<T>(
     url: string,
-    options: RequestInit = {},
+    options: AxiosRequestConfig = {},
     retryCount: number = 0
-  ): Promise<Response> {
+  ): Promise<AxiosResponse<T>> {
     try {
       this.logger.info(`Making request to ${url} (attempt ${retryCount + 1})`);
       
-      const response = await fetch(url, {
+      const response = await this.httpClient.request<T>({
+        url,
         ...options,
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
 
       this.logger.info(`Request successful: ${response.status}`);
       return response;
@@ -72,11 +120,39 @@ export abstract class SocialCore extends EventEmitter {
       if (retryCount < this.maxRetries) {
         this.logger.info(`Retrying in ${this.retryDelay}ms...`);
         await this.delay(this.retryDelay);
-        return this.makeRequest(url, options, retryCount + 1);
+        return this.makeRequest<T>(url, options, retryCount + 1);
       }
       
       throw error;
     }
+  }
+
+  /**
+   * Convenience method for GET requests
+   */
+  protected async get<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    return this.makeRequest<T>(url, { ...config, method: 'GET' });
+  }
+
+  /**
+   * Convenience method for POST requests
+   */
+  protected async post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    return this.makeRequest<T>(url, { ...config, method: 'POST', data });
+  }
+
+  /**
+   * Convenience method for PUT requests
+   */
+  protected async put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    return this.makeRequest<T>(url, { ...config, method: 'PUT', data });
+  }
+
+  /**
+   * Convenience method for DELETE requests
+   */
+  protected async delete<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    return this.makeRequest<T>(url, { ...config, method: 'DELETE' });
   }
 
   /**
