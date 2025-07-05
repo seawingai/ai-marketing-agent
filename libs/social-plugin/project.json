@@ -1,0 +1,20 @@
+{
+  "name": "social-plugin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/social-plugin/src",
+  "projectType": "library",
+  "tags": ["lib"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/social-plugin",
+        "tsConfig": "libs/social-plugin/tsconfig.lib.json",
+        "packageJson": "libs/social-plugin/package.json",
+        "main": "libs/social-plugin/src/index.ts",
+        "assets": ["libs/social-plugin/*.md"]
+      }
+    }
+  }
+}

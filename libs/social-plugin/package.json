@@ -1,13 +1,14 @@
 {
-  "name": "@awing/config-plugin",
+  "name": "@awing/social-plugin",
   "version": "0.0.1",
   "private": true,
   "type": "commonjs",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "dotenv": "^17.0.1",
-    "zod": "^3.25.73",
     "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "node": ">=16.0.0"
   }
 }

@@ -6,6 +6,7 @@ import cron, { ScheduledTask } from 'node-cron';
 import * as fs from 'fs/promises';
 import axios from 'axios';
 import * as path from 'path';
+import { existsSync } from 'fs';
 
 type ScheduleEntry = {
   id: string;
@@ -42,11 +43,31 @@ export class NodeCronPlugin {
     console.log('All scheduled jobs have been stopped and cleared.');
   }
 
+  get defaultSchedule(): ScheduleEntry[] {
+    const defaultSchedule: ScheduleEntry[] = [
+      {
+        id: 'ping',
+        cronTime: '*/3 * * * * *',
+        url: 'http://localhost:3000/content/generate'
+      }
+    ]
+
+    return defaultSchedule;
+  }
+
   // Load existing schedules from file
   async load(): Promise<void> {
     try {
-      const data = await fs.readFile(this.scheduleFilePath, 'utf-8');
-      const schedules: ScheduleEntry[] = JSON.parse(data);
+
+      let schedules: ScheduleEntry[] = this.defaultSchedule;
+
+      if (existsSync(this.scheduleFilePath)) {
+        console.log('Schedule file found.');
+        const data = await fs.readFile(this.scheduleFilePath, 'utf-8');
+        schedules = JSON.parse(data);
+      } else {
+        console.log('No schedule file found, using default schedule.');
+      }
 
       for (const entry of schedules) {
         this.add(entry.id, entry.cronTime, entry.url, false); // don't persist while restoring
@@ -82,7 +103,7 @@ export class NodeCronPlugin {
 
     const task = cron.schedule(cronTime, async () => {
       try {
-        await axios.post(url); // or .get if you prefer
+        await axios.get(url); // or .get if you prefer
         console.log(`[CRON] Triggered ${id} → ${url}`);
       } catch (err) {
         console.error(`[CRON] Failed to trigger ${id}:`, err);

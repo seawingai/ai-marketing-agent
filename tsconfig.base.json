@@ -15,10 +15,12 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@marketing-service/*": ["apps/services/marketing-service/src/*"],
       "@awing/config-plugin": ["libs/config-plugin/src/index.ts"],
+      "@awing/llm-plugin": ["libs/llm-plugin/src/index.ts"],
       "@awing/marketing-agent": ["libs/marketing-agent/src/index.ts"],
-      "@awing/node-cron-plugin": ["libs/node-cron-plugin/src/index.ts"]
+      "@awing/node-cron-plugin": ["libs/node-cron-plugin/src/index.ts"],
+      "@awing/social-plugin": ["libs/social-plugin/src/index.ts"],
+      "@marketing-service/*": ["apps/services/marketing-service/src/*"]
     }
   },
   "exclude": ["assets", "node_modules", "tmp"]
