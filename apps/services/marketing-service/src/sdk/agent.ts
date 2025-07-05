@@ -1,6 +1,7 @@
-import { MarketingAgent } from '@awing/marketing-agent'
+import { MarketingAgent, MarketingAgentOptions } from '@awing/marketing-agent'
 
-const agent = MarketingAgent.getInstance('./assets/schedules.json');
+const options = new MarketingAgentOptions('./src/assets/db')
+const agent = MarketingAgent.getInstance(options);
 
 export { agent }; // Export the singleton agent instance
 

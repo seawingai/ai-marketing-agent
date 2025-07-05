@@ -1,5 +1,5 @@
-export function nodeCronPlugin(): string {
-  return 'node-cron-plugin';
+export function schedulerPlugin(): string {
+  return 'scheduler-plugin';
 }
 
 import cron, { ScheduledTask } from 'node-cron';
@@ -11,10 +11,10 @@ import { existsSync } from 'fs';
 type ScheduleEntry = {
   id: string;
   url: string;
-  cronTime: string; // e.g., '0 9 * * *'
+  cron: string; // e.g., '0 9 * * *'
 };
 
-export class NodeCronPlugin {
+export class SchedulerPlugin {
   private readonly scheduleFilePath: string;
   private tasks: Map<string, ScheduledTask> = new Map();
   private entries: Map<string, ScheduleEntry> = new Map();
@@ -47,7 +47,7 @@ export class NodeCronPlugin {
     const defaultSchedule: ScheduleEntry[] = [
       {
         id: 'ping',
-        cronTime: '*/3 * * * * *',
+        cron: '*/3 * * * * *',
         url: 'http://localhost:3000/content/generate'
       }
     ]
@@ -70,7 +70,7 @@ export class NodeCronPlugin {
       }
 
       for (const entry of schedules) {
-        this.add(entry.id, entry.cronTime, entry.url, false); // don't persist while restoring
+        this.add(entry.id, entry.cron, entry.url, false); // don't persist while restoring
       }
 
       console.log(`Loaded ${schedules.length} scheduled job(s).`);
@@ -103,15 +103,15 @@ export class NodeCronPlugin {
 
     const task = cron.schedule(cronTime, async () => {
       try {
-        await axios.get(url); // or .get if you prefer
-        console.log(`[CRON] Triggered ${id} → ${url}`);
+        await axios.get(url, { params: { id } });
+        console.log(`[CRON] Triggered ${id} → ${url} (with id param)`);
       } catch (err) {
         console.error(`[CRON] Failed to trigger ${id}:`, err);
       }
     });
 
     this.tasks.set(id, task);
-    this.entries.set(id, { id, cronTime, url });
+    this.entries.set(id, { id, cron: cronTime, url });
 
     if (persist) {
       this.save();

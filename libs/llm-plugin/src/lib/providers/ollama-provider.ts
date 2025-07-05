@@ -46,7 +46,7 @@ export class OllamaProvider extends LlmCore {
       this.logRequest(request, provider);
 
       const ollamaRequest: OllamaRequest = {
-        model: request.model || 'llama2',
+        model: request.model || 'llama3.2:latest',
         prompt: request.prompt,
         system: request.systemPrompt,
         temperature: request.temperature ?? 0.7,

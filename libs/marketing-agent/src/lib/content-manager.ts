@@ -1,13 +1,21 @@
 import { LlmPlugin, LlmPluginConfig, LlmRequest, OllamaConfig } from '@awing/llm-plugin'
+import { MarketingDb, TaskSchedule } from '@awing/marketing-db';
 import { SocialPlugin, PlatformConfig, SocialPost } from '@awing/social-plugin'
+
+export type PublishResponse = {
+    success: boolean;
+    messages: string [];
+} 
 
 export class ContentManager {
     private socialPlugin: SocialPlugin;
     private config: LlmPluginConfig;
     private llmPlugin: LlmPlugin;
-    private request: LlmRequest;
+    private db: MarketingDb;
 
-    constructor() {
+    constructor(db:MarketingDb) {
+        this.db = db;
+        
         this.config = {
             provider: 'ollama',
             config: {
@@ -18,13 +26,6 @@ export class ContentManager {
         };
 
         this.llmPlugin = new LlmPlugin(this.config);
-
-        this.request = {
-            prompt: 'Explain quantum computing in simple terms',
-            model: 'llama3.2:latest',
-            temperature: 0.8,
-            maxTokens: 200,
-        };
 
         // Configure platforms
         const platformConfig: PlatformConfig = {
@@ -59,9 +60,9 @@ export class ContentManager {
         this.setupEventListeners();
     }
 
-    async generate() {
+    async generate(id: string) {
         try {
-            const response = await this.llmPlugin.ask(this.request);
+            const response = await this.llmPlugin.ask(this.request(id));
             console.log('Ollama Response:', response.content);
             return response;
         } catch (error) {
@@ -70,7 +71,21 @@ export class ContentManager {
         }
     }
 
-    async publish() {
+    request(id: string): LlmRequest {
+        const ts = TaskSchedule.parseId(id);
+        const prompt = this.db.schedules.get(ts.scheduleId).prompt;
+        const systemPrompt = this.db.prompts.get('text');
+
+        return {
+            prompt: prompt,
+            model: 'llama3.2:latest',
+            temperature: 0.8,
+            maxTokens: 200,
+            systemPrompt: systemPrompt
+        };
+    }
+
+    async publish(id: string): Promise<PublishResponse> {
         const post: SocialPost = {
             content: 'This is a valid post with proper content.',
             hashtags: ['validation', 'test'],
@@ -83,8 +98,10 @@ export class ContentManager {
             console.log('Post is valid, publishing...');
             const result = await this.socialPlugin.publish(post);
             console.log('Publish successful:', result.success);
+            return { success: true, messages: []}
         } else {
             console.error('Post validation failed:', validation.errors);
+            return { success: false, messages: validation.errors}
         }
     }
 

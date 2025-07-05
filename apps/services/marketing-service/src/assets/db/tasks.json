@@ -1,0 +1,10 @@
+[
+    {
+        "id": "generate",
+        "url": "https://localhost:3000/content/generate"
+    },
+    {
+        "id": "publish",
+        "url": "https://localhost:3000/content/publish"
+    }
+]

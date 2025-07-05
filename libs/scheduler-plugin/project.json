@@ -1,0 +1,20 @@
+{
+  "name": "scheduler-plugin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/scheduler-plugin/src",
+  "projectType": "library",
+  "tags": ["lib"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/scheduler-plugin",
+        "tsConfig": "libs/scheduler-plugin/tsconfig.lib.json",
+        "packageJson": "libs/scheduler-plugin/package.json",
+        "main": "libs/scheduler-plugin/src/index.ts",
+        "assets": ["libs/scheduler-plugin/*.md"]
+      }
+    }
+  }
+}

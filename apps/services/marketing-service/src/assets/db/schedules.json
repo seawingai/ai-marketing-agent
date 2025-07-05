@@ -1,0 +1,402 @@
+[
+  {
+    "id": "new_year_day",
+    "event": "New Year's Day",
+    "date": "2025-01-01",
+    "time": "10:00",
+    "cron": "0 10 1 1 *",
+    "prompt": "Celebrate New Year's Day with fresh Bahamian brunch specials and sparkling cocktails—invite locals & tourists to start 2025 with us!",
+    "tasks": [
+      {
+        "id": "generate",
+        "leadDays": 10,
+        "description": "Generate marketing content for the event."
+      },
+      {
+        "id": "publish",
+        "leadDays": 3,
+        "description": "Publish the generated content to the selected channels."
+      }
+    ]
+  },
+  {
+    "id": "majority_rule_day",
+    "event": "Majority Rule Day",
+    "date": "2025-01-10",
+    "time": "12:00",
+    "cron": "0 12 10 1 *",
+    "prompt": "Honor Majority Rule Day with national cuisine feast & history—share pride & culture, drive midday lunch traffic!",
+    "tasks": [
+      {
+        "id": "generate",
+        "leadDays": 10,
+        "description": "Generate marketing content for the event."
+      },
+      {
+        "id": "publish",
+        "leadDays": 3,
+        "description": "Publish the generated content to the selected channels."
+      }
+    ]
+  },
+  {
+    "id": "valentines_day",
+    "event": "Valentine's Day",
+    "date": "2025-02-14",
+    "time": "18:00",
+    "cron": "0 18 14 2 *",
+    "prompt": "Romantic Valentine's dinner at our restaurant—candlelit tables, prix-fixe menu, shared desserts—perfect for couples!",
+    "tasks": [
+      {
+        "id": "generate",
+        "leadDays": 10,
+        "description": "Generate marketing content for the event."
+      },
+      {
+        "id": "publish",
+        "leadDays": 3,
+        "description": "Publish the generated content to the selected channels."
+      }
+    ]
+  },
+  {
+    "id": "good_friday",
+    "event": "Good Friday",
+    "date": "2025-04-18",
+    "time": "12:00",
+    "cron": "0 12 18 4 *",
+    "prompt": "Serve seafood specials for Good Friday—highlight fresh catch & traditions, drive family customers to beachside lunch!",
+    "tasks": [
+      {
+        "id": "generate",
+        "leadDays": 10,
+        "description": "Generate marketing content for the event."
+      },
+      {
+        "id": "publish",
+        "leadDays": 3,
+        "description": "Publish the generated content to the selected channels."
+      }
+    ]
+  },
+  {
+    "id": "easter_monday",
+    "event": "Easter Monday Cookout",
+    "date": "2025-04-21",
+    "time": "11:00",
+    "cron": "0 11 21 4 *",
+    "prompt": "Easter Monday cookout: grilled fish, sides, family fun—create a flavorful outdoors event to boost midday weekend sales!",
+    "tasks": [
+      {
+        "id": "generate",
+        "leadDays": 10,
+        "description": "Generate marketing content for the event."
+      },
+      {
+        "id": "publish",
+        "leadDays": 3,
+        "description": "Publish the generated content to the selected channels."
+      }
+    ]
+  },
+  {
+    "id": "labour_day",
+    "event": "Labour Day",
+    "date": "2025-06-06",
+    "time": "10:00",
+    "cron": "0 10 6 6 *",
+    "prompt": "Celebrate Labour Day parade with brunch buffet & bottomless mimosas—invite early risers during long weekend!",
+    "tasks": [
+      {
+        "id": "generate",
+        "leadDays": 10,
+        "description": "Generate marketing content for the event."
+      },
+      {
+        "id": "publish",
+        "leadDays": 3,
+        "description": "Publish the generated content to the selected channels."
+      }
+    ]
+  },
+  {
+    "id": "independence_day",
+    "event": "Independence Day",
+    "date": "2025-07-10",
+    "time": "17:00",
+    "cron": "0 17 10 7 *",
+    "prompt": "Independence Day celebration with Bahamian BBQ, patriotic cocktails, live Junkanoo beats—sell out early dinner slots!",
+    "tasks": [
+      {
+        "id": "generate",
+        "leadDays": 10,
+        "description": "Generate marketing content for the event."
+      },
+      {
+        "id": "publish",
+        "leadDays": 3,
+        "description": "Publish the generated content to the selected channels."
+      }
+    ]
+  },
+  {
+    "id": "emancipation_day",
+    "event": "Emancipation Day",
+    "date": "2025-08-04",
+    "time": "12:00",
+    "cron": "0 12 4 8 *",
+    "prompt": "Emancipation Day beach feast celebrating freedom—family meals with Bahamian staples, boost midday resort bookings!",
+    "tasks": [
+      {
+        "id": "generate",
+        "leadDays": 10,
+        "description": "Generate marketing content for the event."
+      },
+      {
+        "id": "publish",
+        "leadDays": 3,
+        "description": "Publish the generated content to the selected channels."
+      }
+    ]
+  },
+  {
+    "id": "heroes_day",
+    "event": "National Heroes' Day",
+    "date": "2025-10-13",
+    "time": "12:00",
+    "cron": "0 12 13 10 *",
+    "prompt": "Hero-themed lunch: named dishes after Bahamian icons, offer specials—honor heroes and attract patriotic crowds!",
+    "tasks": [
+      {
+        "id": "generate",
+        "leadDays": 10,
+        "description": "Generate marketing content for the event."
+      },
+      {
+        "id": "publish",
+        "leadDays": 3,
+        "description": "Publish the generated content to the selected channels."
+      }
+    ]
+  },
+  {
+    "id": "culinary_festival",
+    "event": "Culinary & Arts Festival",
+    "date": "2025-10-21",
+    "time": "18:00",
+    "cron": "0 18 21 10 *",
+    "prompt": "Join Bahamas Culinary & Arts Festival with chef tasting menu—elevate fine dining and attract foodies with exclusive event.",
+    "tasks": [
+      {
+        "id": "generate",
+        "leadDays": 10,
+        "description": "Generate marketing content for the event."
+      },
+      {
+        "id": "publish",
+        "leadDays": 3,
+        "description": "Publish the generated content to the selected channels."
+      }
+    ]
+  },
+  {
+    "id": "christmas_eve",
+    "event": "Christmas Eve",
+    "date": "2025-12-24",
+    "time": "18:00",
+    "cron": "0 18 24 12 *",
+    "prompt": "Magical Christmas Eve dinner with festive decor, holiday drinks, cozy tables—reserve early for holiday & family diners!",
+    "tasks": [
+      {
+        "id": "generate",
+        "leadDays": 10,
+        "description": "Generate marketing content for the event."
+      },
+      {
+        "id": "publish",
+        "leadDays": 3,
+        "description": "Publish the generated content to the selected channels."
+      }
+    ]
+  },
+  {
+    "id": "christmas_day",
+    "event": "Christmas Day",
+    "date": "2025-12-25",
+    "time": "12:00",
+    "cron": "0 12 25 12 *",
+    "prompt": "Christmas Day brunch buffet—holiday classics & local flavors, family-friendly, pre-booked seats only!",
+    "tasks": [
+      {
+        "id": "generate",
+        "leadDays": 10,
+        "description": "Generate marketing content for the event."
+      },
+      {
+        "id": "publish",
+        "leadDays": 3,
+        "description": "Publish the generated content to the selected channels."
+      }
+    ]
+  },
+  {
+    "id": "boxing_day",
+    "event": "Boxing Day Junkanoo",
+    "date": "2025-12-26",
+    "time": "14:00",
+    "cron": "0 14 26 12 *",
+    "prompt": "Celebrate Boxing Day with live Junkanoo parade outside—drinks & quick bites, capture festive crowds post-parade!",
+    "tasks": [
+      {
+        "id": "generate",
+        "leadDays": 10,
+        "description": "Generate marketing content for the event."
+      },
+      {
+        "id": "publish",
+        "leadDays": 3,
+        "description": "Publish the generated content to the selected channels."
+      }
+    ]
+  },
+  {
+    "id": "weekly_weekend_boost",
+    "event": "Weekend Weekend Brunch",
+    "cron": "0 10 * * SAT",
+    "prompt": "It's Saturday Brunch Time! Promote bottomless brunch with live music, mimosa specials—capture weekend crowd!",
+    "tasks": [
+      {
+        "id": "generate",
+        "leadDays": 10,
+        "description": "Generate marketing content for the event."
+      },
+      {
+        "id": "publish",
+        "leadDays": 3,
+        "description": "Publish the generated content to the selected channels."
+      }
+    ]
+  },
+  [
+    {
+      "id": "bahamas-bowl",
+      "event": "Bahamas Bowl",
+      "date": "2025-01-04",
+      "time": "18:00",
+      "cron": "0 18 4 1 *",
+      "prompt": "Cheer on the Bahamas Bowl with game night pizzas & wings—get your friends together and score big with our stadium-style specials!",
+      "tasks": [
+        {
+          "id": "generate",
+          "leadDays": 10,
+          "description": "Generate marketing content for the event."
+        },
+        {
+          "id": "publish",
+          "leadDays": 3,
+          "description": "Publish the generated content to the selected channels."
+        }
+      ]
+    },
+    {
+      "id": "eid-al-fitr",
+      "event": "Eid al‑Fitr",
+      "date": "2025-02-28",
+      "time": "12:00",
+      "cron": "0 12 28 2 *",
+      "prompt": "Celebrate Eid al‑Fitr with a feast of halal delights—rich biryani, sweet treats & family platters perfect for post-fast joy.",
+      "tasks": [
+        {
+          "id": "generate",
+          "leadDays": 10,
+          "description": "Generate marketing content for the event."
+        },
+        {
+          "id": "publish",
+          "leadDays": 3,
+          "description": "Publish the generated content to the selected channels."
+        }
+      ]
+    },
+    {
+      "id": "holi",
+      "event": "Holi Festival",
+      "date": "2025-03-14",
+      "time": "15:00",
+      "cron": "0 15 14 3 *",
+      "prompt": "Brighten Holi with colorful dessert platters and fruity mocktails—perfect for vibrant, joyous sharing on social media!",
+      "tasks": [
+        {
+          "id": "generate",
+          "leadDays": 10,
+          "description": "Generate marketing content for the event."
+        },
+        {
+          "id": "publish",
+          "leadDays": 3,
+          "description": "Publish the generated content to the selected channels."
+        }
+      ]
+    },
+    {
+      "id": "good-friday",
+      "event": "Good Friday",
+      "date": "2025-04-18",
+      "time": "12:00",
+      "cron": "0 12 18 4 *",
+      "prompt": "Serve seafood specials for Good Friday—highlight fresh catch & traditions, drive family customers to beachside lunch!",
+      "tasks": [
+        {
+          "id": "generate",
+          "leadDays": 10,
+          "description": "Generate marketing content for the event."
+        },
+        {
+          "id": "publish",
+          "leadDays": 3,
+          "description": "Publish the generated content to the selected channels."
+        }
+      ]
+    },
+    {
+      "id": "eid-al-adha",
+      "event": "Eid al‑Adha",
+      "date": "2025-06-13",
+      "time": "12:00",
+      "cron": "0 12 13 6 *",
+      "prompt": "Mark Eid al‑Adha with a lamb feast—succulent grills, family platters & sweet baklava—bring everyone to break bread together.",
+      "tasks": [
+        {
+          "id": "generate",
+          "leadDays": 10,
+          "description": "Generate marketing content for the event."
+        },
+        {
+          "id": "publish",
+          "leadDays": 3,
+          "description": "Publish the generated content to the selected channels."
+        }
+      ]
+    },
+    {
+      "id": "raksha-bandhan",
+      "event": "Raksha Bandhan",
+      "date": "2025-08-08",
+      "time": "17:00",
+      "cron": "0 17 8 8 *",
+      "prompt": "Celebrate Raksha Bandhan with sibling duo dessert promo—share a sweet treat on us when you bring your brother or sister!",
+      "tasks": [
+        {
+          "id": "generate",
+          "leadDays": 10,
+          "description": "Generate marketing content for the event."
+        },
+        {
+          "id": "publish",
+          "leadDays": 3,
+          "description": "Publish the generated content to the selected channels."
+        }
+      ]
+    }
+  ]
+]

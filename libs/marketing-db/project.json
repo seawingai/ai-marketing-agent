@@ -1,0 +1,20 @@
+{
+  "name": "marketing-db",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/marketing-db/src",
+  "projectType": "library",
+  "tags": ["lib"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/marketing-db",
+        "tsConfig": "libs/marketing-db/tsconfig.lib.json",
+        "packageJson": "libs/marketing-db/package.json",
+        "main": "libs/marketing-db/src/index.ts",
+        "assets": ["libs/marketing-db/*.md"]
+      }
+    }
+  }
+}

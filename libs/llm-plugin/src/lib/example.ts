@@ -5,6 +5,8 @@ import { OllamaConfig } from './providers/ollama-provider';
 import { GeminiConfig } from './providers/gemini-provider';
 import { MistralConfig } from './providers/mistral-provider';
 
+exampleOllama();
+
 // Example usage of the LlmPlugin with different providers
 
 export async function exampleOpenAI() {
@@ -50,7 +52,7 @@ export async function exampleOllama() {
 
   const request: LlmRequest = {
     prompt: 'Explain quantum computing in simple terms',
-    model: 'llama2',
+    model: 'llama3.2:latest',
     temperature: 0.8,
     maxTokens: 200,
   };

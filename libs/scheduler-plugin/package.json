@@ -1,5 +1,5 @@
 {
-  "name": "@awing/node-cron-plugin",
+  "name": "@awing/scheduler-plugin",
   "version": "0.0.1",
   "private": true,
   "type": "commonjs",
