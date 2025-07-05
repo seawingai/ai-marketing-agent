@@ -7,14 +7,12 @@ export function marketingDb(): string {
 }
 
 export class MarketingDb {
-  private logger: Console;
-  dbPath: string
+  private logger: Console = console;
   schedules: JsonTable<Schedule>;
   tasks: JsonTable<Task>;
   prompts: TextTable;
 
-  constructor(dbPath: string) {
-    this.dbPath = dbPath;
+  constructor(private dbPath: string) {
   }
 
   public async load(): Promise<void> {

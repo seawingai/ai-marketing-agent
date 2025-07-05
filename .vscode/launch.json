@@ -5,11 +5,41 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "node-terminal",
-      "name": "Debug marketing-agent",
+      "type": "node",
       "request": "launch",
-      "command": "npx nx test marketing-agent --testPathPattern=example.spec.ts",
-      "cwd": "${workspaceFolder}"
+      "name": "marketing-agent",
+      "program": "${workspaceFolder}/node_modules/nx/bin/nx.js",
+      "args": [
+        "test",
+        "marketing-agent",
+        "--testPathPattern=example.spec.ts"
+      ],
+      "cwd": "${workspaceFolder}",
+      "skipFiles": [
+        "<node_internals>/**",
+        "**/node_modules/tslib/**"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "smartStep": true
+    },    {
+      "type": "node",
+      "request": "launch",
+      "name": "pino-plugin",
+      "program": "${workspaceFolder}/node_modules/nx/bin/nx.js",
+      "args": [
+        "test",
+        "pino-plugin",
+        "--testPathPattern=example.spec.ts"
+      ],
+      "cwd": "${workspaceFolder}",
+      "skipFiles": [
+        "<node_internals>/**",
+        "**/node_modules/tslib/**"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "smartStep": true
     }
   ]
 }

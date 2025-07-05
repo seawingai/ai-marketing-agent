@@ -1,0 +1,20 @@
+{
+  "name": "pino-plugin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/pino-plugin/src",
+  "projectType": "library",
+  "tags": ["lib"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/pino-plugin",
+        "tsConfig": "libs/pino-plugin/tsconfig.lib.json",
+        "packageJson": "libs/pino-plugin/package.json",
+        "main": "libs/pino-plugin/src/index.ts",
+        "assets": ["libs/pino-plugin/*.md"]
+      }
+    }
+  }
+}

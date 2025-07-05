@@ -1,0 +1,192 @@
+[
+  {
+    "id": "new_year_day:generate",
+    "cron": "0 10 22 12 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "new_year_day:publish",
+    "cron": "0 10 29 12 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "majority_rule_day:generate",
+    "cron": "0 12 31 12 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "majority_rule_day:publish",
+    "cron": "0 12 7 1 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "valentines_day:generate",
+    "cron": "0 18 4 2 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "valentines_day:publish",
+    "cron": "0 18 11 2 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "good_friday:generate",
+    "cron": "0 12 8 4 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "good_friday:publish",
+    "cron": "0 12 15 4 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "easter_monday:generate",
+    "cron": "0 11 11 4 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "easter_monday:publish",
+    "cron": "0 11 18 4 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "labour_day:generate",
+    "cron": "0 10 27 5 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "labour_day:publish",
+    "cron": "0 10 3 6 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "independence_day:generate",
+    "cron": "0 17 30 6 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "independence_day:publish",
+    "cron": "0 17 7 7 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "emancipation_day:generate",
+    "cron": "0 12 25 7 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "emancipation_day:publish",
+    "cron": "0 12 1 8 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "heroes_day:generate",
+    "cron": "0 12 3 10 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "heroes_day:publish",
+    "cron": "0 12 10 10 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "culinary_festival:generate",
+    "cron": "0 18 11 10 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "culinary_festival:publish",
+    "cron": "0 18 18 10 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "christmas_eve:generate",
+    "cron": "0 18 14 12 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "christmas_eve:publish",
+    "cron": "0 18 21 12 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "christmas_day:generate",
+    "cron": "0 12 15 12 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "christmas_day:publish",
+    "cron": "0 12 22 12 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "boxing_day:generate",
+    "cron": "0 14 16 12 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "boxing_day:publish",
+    "cron": "0 14 23 12 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "bahamas-bowl:generate",
+    "cron": "0 18 25 12 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "bahamas-bowl:publish",
+    "cron": "0 18 1 1 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "eid-al-fitr:generate",
+    "cron": "0 12 18 2 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "eid-al-fitr:publish",
+    "cron": "0 12 25 2 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "holi:generate",
+    "cron": "0 15 4 3 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "holi:publish",
+    "cron": "0 15 11 3 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "good-friday:generate",
+    "cron": "0 12 8 4 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "good-friday:publish",
+    "cron": "0 12 15 4 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "eid-al-adha:generate",
+    "cron": "0 12 3 6 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "eid-al-adha:publish",
+    "cron": "0 12 10 6 *",
+    "url": "https://localhost:3000/content/publish"
+  },
+  {
+    "id": "raksha-bandhan:generate",
+    "cron": "0 17 29 7 *",
+    "url": "https://localhost:3000/content/generate"
+  },
+  {
+    "id": "raksha-bandhan:publish",
+    "cron": "0 17 5 8 *",
+    "url": "https://localhost:3000/content/publish"
+  }
+]

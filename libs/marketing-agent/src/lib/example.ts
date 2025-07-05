@@ -7,16 +7,17 @@ const dbPath = 'C:/data/seawingai/git/ai-marketing-agent/apps/services/marketing
 
 async function runContentManagerExample() {
   const db = new MarketingDb(dbPath);
+  await db.load();
   const contentManager = new ContentManager(db);
   try {
-    const llmResponse = await contentManager.generate('scheduleId:taskId');
+    const llmResponse = await contentManager.generate('new_year_day:generate');
     console.log('Generated content:', llmResponse);
   } catch (err) {
     console.error('Error generating content:', err);
   }
   try {
-    const publishResponse = await contentManager.publish('scheduleId:taskId');
-    console.log('Publish response:', publishResponse);
+    //const publishResponse = await contentManager.publish('new_year_day:publish');
+    //console.log('Publish response:', publishResponse);
   } catch (err) {
     console.error('Error publishing content:', err);
   }
@@ -24,6 +25,7 @@ async function runContentManagerExample() {
 
 async function runScheduleManagerExample() {
   const db = new MarketingDb(dbPath);
+  await db.load();
   const scheduleManager = new ScheduleManager(db);
   await scheduleManager.start();
 }
@@ -48,11 +50,7 @@ async function runMarketingAgentExample() {
 }
 
 export async function runExamples() {
-  //await runContentManagerExample();
+  await runContentManagerExample();
   //await runScheduleManagerExample();
-  await runMarketingAgentExample();
+  //await runMarketingAgentExample();
 }
-
-if (require.main === module) {
-  runExamples().catch(console.error);
-} 

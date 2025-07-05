@@ -1,7 +1,6 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import * as winston from 'winston';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import * as retry from 'retry';
-
+import { PinoPlugin } from '@awing/pino-plugin'
 export interface LlmConfig {
   apiKey?: string;
   baseUrl?: string;
@@ -38,7 +37,7 @@ export interface LlmError extends Error {
 
 export abstract class LlmCore {
   protected config: LlmConfig;
-  protected logger: winston.Logger;
+  protected logger: PinoPlugin;
   protected httpClient: AxiosInstance;
   protected operation: retry.RetryOperation;
 
@@ -57,23 +56,7 @@ export abstract class LlmCore {
   }
 
   private setupLogger(): void {
-    this.logger = winston.createLogger({
-      level: this.config.logLevel,
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.errors({ stack: true }),
-        winston.format.json()
-      ),
-      defaultMeta: { service: 'llm-core' },
-      transports: [
-        new winston.transports.Console({
-          format: winston.format.combine(
-            winston.format.colorize(),
-            winston.format.simple()
-          ),
-        }),
-      ],
-    });
+    this.logger = new PinoPlugin(this.constructor.name);
   }
 
   private setupHttpClient(): void {
@@ -88,7 +71,7 @@ export abstract class LlmCore {
     // Add request interceptor for logging
     this.httpClient.interceptors.request.use(
       (config) => {
-        this.logger.debug('HTTP Request', {
+        this.logger.debug2(`HTTP Request`, {
           method: config.method,
           url: config.url,
           headers: config.headers,
@@ -104,7 +87,7 @@ export abstract class LlmCore {
     // Add response interceptor for logging
     this.httpClient.interceptors.response.use(
       (response) => {
-        this.logger.debug('HTTP Response', {
+        this.logger.debug2('HTTP Response', {
           status: response.status,
           statusText: response.statusText,
           url: response.config.url,
@@ -139,7 +122,7 @@ export abstract class LlmCore {
     return new Promise((resolve, reject) => {
       this.operation.attempt(async (currentAttempt) => {
         try {
-          this.logger.info(`${context} - Attempt ${currentAttempt}`, {
+          this.logger.info2(`${context} - Attempt ${currentAttempt}`, {
             attempt: currentAttempt,
             maxRetries: this.config.maxRetries,
           });
@@ -194,7 +177,7 @@ export abstract class LlmCore {
   }
 
   protected logRequest(request: LlmRequest, provider: string): void {
-    this.logger.info('LLM Request', {
+    this.logger.info2('LLM Request', {
       provider,
       model: request.model,
       temperature: request.temperature,
@@ -205,7 +188,7 @@ export abstract class LlmCore {
   }
 
   protected logResponse(response: LlmResponse, provider: string, duration: number): void {
-    this.logger.info('LLM Response', {
+    this.logger.info2('LLM Response', {
       provider,
       model: response.model,
       contentLength: response.content.length,
@@ -215,7 +198,7 @@ export abstract class LlmCore {
   }
 
   protected logError(error: LlmError, provider: string): void {
-    this.logger.error('LLM Error', {
+    this.logger.error2('LLM Error', {
       provider,
       error: error.message,
       code: error.code,
